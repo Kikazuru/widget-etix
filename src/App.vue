@@ -3,22 +3,43 @@
     :style="{ height: '70vh' }"
     class="d-flex justify-center align-center w-100 bg-transparent"
   >
-    <v-card max-width="600">
+    <v-card max-width="650">
       <v-card-item>
         <v-card-title>
           {{ product.product_name }}
         </v-card-title>
+
+        <v-card-subtitle>
+          {{ product?.store?.store_name }}
+        </v-card-subtitle>
       </v-card-item>
+
+      <v-divider></v-divider>
 
       <v-window v-model="step">
         <v-window-item :value="1">
-          <product-preview></product-preview>
+          <product-preview :product="product"></product-preview>
         </v-window-item>
 
         <v-window-item :value="2">
           <customer-information></customer-information>
         </v-window-item>
       </v-window>
+
+      <v-card-item>
+        <div class="d-flex flex-row justify-space-between">
+          <div class="text-caption text-grey d-flex align-center">
+            <div>Bahasa</div>
+          </div>
+          <div class="d-flex flex-row align-center">
+            <div class="text-caption text-grey">Powered by</div>
+            <div>
+              <v-img height="26" width="45" :src="require('@/assets/logo.svg')">
+              </v-img>
+            </div>
+          </div>
+        </div>
+      </v-card-item>
     </v-card>
   </div>
 </template>
