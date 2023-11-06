@@ -8,24 +8,49 @@
         <v-card-title>
           {{ product.product_name }}
         </v-card-title>
-
-        <v-card-subtitle>
-          {{ product?.store?.store_name }}
-        </v-card-subtitle>
       </v-card-item>
+
+      <v-window v-model="step">
+        <v-window-item :value="1">
+          <product-preview></product-preview>
+        </v-window-item>
+
+        <v-window-item :value="2">
+          <customer-information></customer-information>
+        </v-window-item>
+      </v-window>
     </v-card>
   </div>
 </template>
 
 <script>
+import CustomerInformation from "./components/CustomerInformation.vue";
+import ProductPreview from "./components/ProductPreview.vue";
+
 export default {
   name: "App",
+  components: { ProductPreview, CustomerInformation },
   data() {
     return {
       product: {},
+      step: this.$store.state.step,
     };
   },
+
+  computed: {
+    currentStep() {
+      return this.$store.state.step;
+    },
+  },
+
+  watch: {
+    currentStep(value) {
+      this.step = value;
+    },
+  },
+
   async created() {
+    console.log(this.$store.state.step);
     const app = document.getElementById("app");
     const productID = app.getAttribute("product-id");
 
