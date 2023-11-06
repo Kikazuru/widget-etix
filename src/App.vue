@@ -71,7 +71,6 @@ export default {
   },
 
   async created() {
-    console.log(this.$store.state.step);
     const app = document.getElementById("app");
     const productID = app.getAttribute("product-id");
 

@@ -9,7 +9,7 @@ const store = createStore({
         }
     },
     mutations: {
-        addProductToCart(state, payload = { product: null, qty: 0 }) {
+        addProductToCart(state, payload = { productType: null, qty: 0 }) {
             state.cart.push(payload)
         },
         nextStep(state) {

@@ -81,7 +81,12 @@
               </div>
             </v-col>
             <v-col cols="12" xxl="2" xl="2" lg="2" md="2" sm="2">
-              <v-btn variant="flat" color="blue" class="text-none text-caption">
+              <v-btn
+                variant="flat"
+                @click="addToCart(type)"
+                color="blue"
+                class="text-none text-caption"
+              >
                 Pilih Tiket
               </v-btn>
             </v-col>
@@ -107,6 +112,12 @@ export default {
     },
   },
   methods: {
+    addToCart(productType) {
+      this.$store.commit("addProductToCart", {
+        productType: productType,
+        qty: 1,
+      });
+    },
     next() {
       this.$store.commit("nextStep");
     },
