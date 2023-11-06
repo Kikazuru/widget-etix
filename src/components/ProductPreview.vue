@@ -58,8 +58,9 @@
               md="3"
               sm="3"
             >
+              <!-- handling unlimited qty -->
               <v-chip color="blue" class="text-caption" label>
-                Sisa Tiket: 10000
+                Sisa Tiket: {{ type.producttype_qty }}
               </v-chip>
             </v-col>
           </v-row>
@@ -72,16 +73,26 @@
         </v-card-text>
 
         <v-card-text class="pt-0">
+          <!-- handling stok habis, stok kurang dari max order, tambah stok tidak boleh lebih dari max order -->
           <v-row no-gutters align="center">
-            <v-col cols="12" xxl="10" xl="10" lg="10" md="10" sm="10">
+            <v-col cols="12" xxl="8" xl="8" lg="8" md="8" sm="8">
               <div
                 class="text-h6 text-orange-darken-3 font-weight-bold text-secondaryVariant text-left"
               >
-                Rp {{ type.producttype_price }}
+                {{ numberToRupiah(type.producttype_price) }}
               </div>
             </v-col>
-            <v-col cols="12" xxl="2" xl="2" lg="2" md="2" sm="2">
+            <v-col
+              class="d-flex justify-end"
+              cols="12"
+              xxl="4"
+              xl="4"
+              lg="4"
+              md="4"
+              sm="4"
+            >
               <v-btn
+                v-if="!findProductInCart(type.producttype_id)"
                 variant="flat"
                 @click="addToCart(type)"
                 color="blue"
@@ -89,6 +100,14 @@
               >
                 Pilih Tiket
               </v-btn>
+
+              <div class="d-flex" v-else>
+                <v-btn @click="removeFromCart(type)" icon="mdi-trash-can">
+                </v-btn>
+                <v-btn @click="reduceFromCart(type)" icon="mdi-minus"></v-btn>
+                <span>{{ findProductInCart(type.producttype_id)?.qty }}</span>
+                <v-btn @click="addToCart(type)" icon="mdi-plus"></v-btn>
+              </div>
             </v-col>
           </v-row>
         </v-card-text>
@@ -96,14 +115,26 @@
     </template>
   </v-card-item>
 
-  <v-card-actions>
-    <v-spacer> </v-spacer>
-    <v-btn @click="next"> Lanjut </v-btn>
-  </v-card-actions>
+  <v-card-text class="d-flex justify-space-between align-center">
+    <div>Subtotal ({{ totalCartQty }} tiket)</div>
+
+    <div>
+      <v-btn
+        variant="flat"
+        class="text-none text-caption"
+        color="green"
+        @click="next"
+      >
+        Daftar Sekarang
+      </v-btn>
+    </div>
+  </v-card-text>
 </template>
 
 <script>
-import { utcToLocale } from "@/utils/formatter";
+import { utcToLocale } from "@/utils/dateFormatter";
+import { numberToRupiah } from "@/utils/numberFormatter";
+
 export default {
   props: {
     product: {
@@ -111,7 +142,29 @@ export default {
       require: true,
     },
   },
+  computed: {
+    totalCartQty() {
+      return this.$store.getters.totalCartQty;
+    },
+  },
+
   methods: {
+    numberToRupiah(number) {
+      return numberToRupiah(number);
+    },
+    findProductInCart(productTypeID) {
+      return this.$store.getters.findProductInCart(productTypeID);
+    },
+    removeFromCart(productType) {
+      this.$store.commit("removeProductFromCart", {
+        productType: productType,
+      });
+    },
+    reduceFromCart(productType) {
+      this.$store.commit("reduceProductFromCart", {
+        productType: productType,
+      });
+    },
     addToCart(productType) {
       this.$store.commit("addProductToCart", {
         productType: productType,

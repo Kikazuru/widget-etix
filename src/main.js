@@ -5,10 +5,10 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 
 // Axios
-import axios from 'axios'
+import api from "./plugins/api"
 import VueAxios from 'vue-axios'
 
 // Vuex
 import store from './plugins/store'
 
-createApp(App).use(vuetify).use(VueAxios, axios).use(store).mount('#app')
+createApp(App).use(vuetify).use(VueAxios, api).use(store).mount('#app')

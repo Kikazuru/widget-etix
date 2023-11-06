@@ -1,8 +1,5 @@
 <template>
-  <div
-    :style="{ height: '70vh' }"
-    class="d-flex justify-center align-center w-100 bg-transparent"
-  >
+  <div class="d-flex justify-center align-center w-100 bg-transparent">
     <v-card max-width="650">
       <v-card-item>
         <v-card-title>
@@ -75,21 +72,15 @@ export default {
     const productID = app.getAttribute("product-id");
 
     this.productID = productID;
+    this.$store.state.productID = productID;
 
-    const getToken = await this.axios.post(
-      "http://108.137.16.47/dev/auth/guest"
-    );
+    const getToken = await this.axios.post("auth/guest");
     const guestToken = getToken.data.response.guest_token;
+    this.$store.state.guestToken = guestToken;
 
-    this.axios
-      .get(`http://108.137.16.47/dev/product/${productID}`, {
-        headers: {
-          Authorization: `Bearer ${guestToken}`,
-        },
-      })
-      .then((response) => {
-        this.product = response.data.response;
-      });
+    this.axios.get(`product/${productID}`).then((response) => {
+      this.product = response.data.response;
+    });
   },
 };
 </script>
