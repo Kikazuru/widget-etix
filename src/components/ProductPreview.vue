@@ -105,16 +105,27 @@
                 Pilih Tiket
               </v-btn>
 
-              <div class="d-flex" v-else>
+              <div class="d-flex align-center" v-else>
                 <v-btn
+                  variant="flat"
+                  size="small"
                   @click="removeFromCart(type)"
-                  size="large"
                   icon="mdi-trash-can"
                 >
                 </v-btn>
-                <v-btn @click="reduceFromCart(type)" icon="mdi-minus"></v-btn>
+                <v-btn
+                  variant="flat"
+                  size="small"
+                  @click="reduceFromCart(type)"
+                  icon="mdi-minus"
+                ></v-btn>
                 <span>{{ findProductInCart(type.producttype_id)?.qty }}</span>
-                <v-btn @click="addToCart(type)" icon="mdi-plus"></v-btn>
+                <v-btn
+                  variant="flat"
+                  size="small"
+                  @click="addToCart(type)"
+                  icon="mdi-plus"
+                ></v-btn>
               </div>
             </v-col>
           </v-row>
