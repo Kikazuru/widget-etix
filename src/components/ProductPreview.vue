@@ -50,7 +50,7 @@
             </v-col>
 
             <v-col
-              class="d-flex align-end"
+              class="d-flex align-end justify-end"
               cols="12"
               xxl="3"
               xl="3"
@@ -60,7 +60,11 @@
             >
               <!-- handling unlimited qty -->
               <v-chip color="blue" class="text-caption" label>
-                Sisa Tiket: {{ type.producttype_qty }}
+                Sisa Tiket:&nbsp;
+                <span v-if="type.is_limited">{{
+                  type.producttype_qty - type.producttype_booked_qty
+                }}</span>
+                <v-icon v-else>mdi-infinity</v-icon>
               </v-chip>
             </v-col>
           </v-row>
@@ -102,7 +106,11 @@
               </v-btn>
 
               <div class="d-flex" v-else>
-                <v-btn @click="removeFromCart(type)" icon="mdi-trash-can">
+                <v-btn
+                  @click="removeFromCart(type)"
+                  size="large"
+                  icon="mdi-trash-can"
+                >
                 </v-btn>
                 <v-btn @click="reduceFromCart(type)" icon="mdi-minus"></v-btn>
                 <span>{{ findProductInCart(type.producttype_id)?.qty }}</span>
